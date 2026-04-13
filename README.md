@@ -35,3 +35,11 @@ A full-stack web application inspired by Airbnb that allows users to explore, cr
 /controllers → Business logic
 /views → EJS templates
 /public → Static files (CSS, JS)
+
+---
+
+
+## ⚠️ Note
+
+This project requires API keys (Mapbox, Cloudinary) to run properly.  
+If not provided, some features like maps or image uploads may not work.
