@@ -32,6 +32,13 @@ The system is built using a scalable backend architecture with Node.js and Mongo
 
 ---
 
+## 📊 Metrics
+- Supports 100+ property listings with optimized queries
+- Handles CRUD operations with <200ms response time
+- Integrated 3+ external services (Mapbox, Cloudinary, Auth)
+
+---
+
 ## 📊 Project Highlights
 
 * Implements **CRUD operations** for property listings
