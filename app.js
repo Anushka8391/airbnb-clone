@@ -27,14 +27,18 @@ const User = require('./models/user.js');
 const userRouter = require('./routes/user.js');
 
 
-const MONGO_URL ="mongodb://127.0.0.1:27017/wanderlust";
+const MONGO_URL = process.env.ATLASDB_URL;
 
-main().then(() => {
-    console.log("Connected to DB");
-})
-.catch((err) => {
-    console.log("err");
-});    
+console.log("Connecting to MongoDB...");
+
+main()
+    .then(() => {
+        console.log("Connected to MongoDB Atlas");
+    })
+    .catch((err) => {
+        console.error("Database connection failed:");
+        console.error(err);
+    });
 
 async function main() {
     await mongoose.connect(MONGO_URL);
@@ -51,7 +55,7 @@ app.use(express.static(path.join(__dirname, "/public")));
 
 const sessionOptions = {
     name: 'connect.sid',
-    secret: "mysupersecretcode",
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -96,6 +100,9 @@ app.use((req,res,next)=>{
 //     let registeredUser=await User.register(fakeUser, "helloworld");
 //     res.send(registeredUser);
 // })
+app.get("/", (req, res) => {
+    res.redirect("/listings");
+});
 
 const classroomRouter = require('./classroom/routes/classroom');
 app.use('/', classroomRouter);
@@ -113,7 +120,4 @@ app.use((err, req, res, next) => {
     // res.status(statusCode).send(message);
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () =>{
-    console.log(`Server is listening on http://localhost:${PORT}`);
-});
+module.exports = app;
