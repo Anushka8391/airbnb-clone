@@ -1,23 +1,16 @@
-const path = require("path");
-const dotenv = require("dotenv");
-const Listing=require("../models/listing");
-const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
-const DEFAULT_IMAGE_URL = "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=60";
-const envConfig = dotenv.config({ path: path.join(__dirname, "..", ".env") });
+const Listing = require("../models/listing");
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 
-const getMapToken = () => {
-  if (process.env.MAP_TOKEN) {
-    return process.env.MAP_TOKEN;
-  }
+const DEFAULT_IMAGE_URL =
+  "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=60";
 
-  if (envConfig.parsed && envConfig.parsed.MAP_TOKEN) {
-    return envConfig.parsed.MAP_TOKEN;
-  }
+const MAP_TOKEN = process.env.MAP_TOKEN;
 
-  return "";
-};
+console.log("MAP_TOKEN =", MAP_TOKEN);
 
-const geocodingClient = mbxGeocoding({ accessToken: getMapToken() });
+const geocodingClient = mbxGeocoding({
+  accessToken: MAP_TOKEN,
+});
 
 const getImageUrl = (image) => {
   if (typeof image === "string" && image.trim() !== "") {
@@ -74,7 +67,7 @@ module.exports.showListing=async(req, res) => {
       listing,
       currentUser,
       isListingOwner,
-      mapToken: getMapToken(),
+      mapToken: MAP_TOKEN,
     });
 };
 
